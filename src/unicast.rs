@@ -44,7 +44,7 @@ impl NetReceiver for TCPReceiver {
     fn receive(&self, rx: mpsc::Receiver<()>) {
         let mut threads = Vec::new();
         for stream in self.listener.incoming() {
-            if let Ok(_) = rx.try_recv() {
+            if rx.try_recv().is_ok() {
                 break;
             }
             match stream {
@@ -119,7 +119,7 @@ impl NetReceiver for UDPReceiver {
     fn receive(&self, rx: mpsc::Receiver<()>) {
         let mut buf = [0; 1024];
         loop {
-            if let Ok(_) = rx.try_recv() {
+            if rx.try_recv().is_ok() {
                 break;
             }
             match self.socket.recv_from(&mut buf) {

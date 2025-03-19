@@ -80,20 +80,20 @@ enum Commands {
 
 #[derive(Clone, ValueEnum)]
 enum Protocol {
-    TCP,
-    UDP,
+    Tcp,
+    Udp,
 }
 
 fn main() {
     let cli = Cli::parse();
     match &cli.command {
         Commands::UnicastSend { addr, msg, proto } => match proto {
-            Protocol::TCP => unicast::TCPSender::run(addr, msg),
-            Protocol::UDP => unicast::UDPSender::run(addr, msg),
+            Protocol::Tcp => unicast::TCPSender::run(addr, msg),
+            Protocol::Udp => unicast::UDPSender::run(addr, msg),
         },
         Commands::UnicastReceive { addr, proto } => match proto {
-            Protocol::TCP => unicast::TCPReceiver::new(addr).run(),
-            Protocol::UDP => unicast::UDPReceiver::new(addr).run(),
+            Protocol::Tcp => unicast::TCPReceiver::new(addr).run(),
+            Protocol::Udp => unicast::UDPReceiver::new(addr).run(),
         },
         Commands::MulticastSend { addr, msg } => multicast::Sender::run(addr, msg),
         Commands::MulticastReceive { addr } => multicast::Receiver::new(addr).run(),

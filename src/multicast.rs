@@ -57,7 +57,7 @@ impl NetReceiver for Receiver {
     fn receive(&self, rx: mpsc::Receiver<()>) {
         let mut buf = [0; 1024];
         loop {
-            if let Ok(_) = rx.try_recv() {
+            if rx.try_recv().is_ok() {
                 break;
             }
             match self.socket.recv_from(&mut buf) {
